@@ -1,110 +1,147 @@
-
-from pyunicorn.eventseries import eca
-import pandas as pd
+# 最终的ECA处理
+import eca as eca
+from concurrent.futures.thread import ThreadPoolExecutor
+from glob import glob
 import rasterio
 import numpy as np
 import os
+from 筛选栅格数据 import select_date
+import time
+
+paths = ["E:/public/Central_Asia/MOD11A2-Interpolation/", r'E:/public/Central_Asia/MOD13A2-Interpolation/']
+outpath = "E:/public/Central_Asia/ECA/05-06/"
+time_start = "2000"
+time_end = "2016"
+select_moth = ["05-01", "07-01"]
+path_judgments = ["E:/public/Central_Asia/extremum/05-06/LST_Day_1km/", "E:/public/Central_Asia/extremum/05-06/NDVI/"]
+out_files = [r'LST_min.tif', r'LST_max.tif']
+st = time.time()
 
 
-# def judgment_read_data(Path, Moth, File):
-#     Data = []
-#     for j, i in enumerate(File):
-#         with rasterio.open(Path + Moth + i) as Src_read:
-#             profile = Src_read.profile
-#             temp = Src_read.read()[0]
-#             temp = pd.DataFrame(temp)
-#             temp[temp == profile.data['nodata']] = np.nan
-#             temp = temp.values
-#         Data.append(temp)
-#     Data = np.array(Data)
-#     return Data
+def Eca(dataA, dataB, dataC):
+    if ((np.isnan(dataA).sum() + np.isnan(dataB).sum()) > 0) or (len(dataA[dataA == 1]) != len(dataB[dataB == 1])) or \
+            (len(dataA[dataA == 1]) < len(dataA) // 10):
+        data1 = np.nan
+    else:
+        data1 = eca.ECA(dataA, dataB, delT=0)[0]
+    if ((np.isnan(dataA).sum() + np.isnan(dataC).sum()) > 0) or (len(dataA[dataA == 1]) != len(dataC[dataC == 1])) or \
+            (len(dataA[dataA == 1]) < len(dataA) // 10):
+        data2 = np.nan
+    else:
+        data2 = eca.ECA(dataA, dataC, delT=0)[0]
+    if np.isnan(data1) and np.isnan(data2):
+        return np.nan
+    elif np.isnan(data1):
+        return data2
+    elif np.isnan(data2):
+        return data1
+    if data1 < data2:
+        return data2
+    else:
+        return -data1
 
 
-def read_data(Path, Moth, File, Judgment1, Judgment2, Profile):
-    for j, i in enumerate(File):
-        with rasterio.open(Path + Moth + i) as Src_read:
-            temp = Src_read.read()[0]
-            # print(temp[0][0])
-            temp1 = pd.DataFrame(temp)
-            temp1[temp1 == Profile.data['nodata']] = np.nan
-            temp1[np.isnan(Judgment1)] = np.nan
-            temp1[(~np.isnan(temp1)) & (temp1 < Judgment1)] = 1
-            temp1[(~np.isnan(temp1)) & (temp1 >= Judgment1)] = 0
-            temp2 = pd.DataFrame(temp)
-            # print(temp2[0][0])
-            temp2[temp2 == Profile.data['nodata']] = np.nan
-            # print(Judgment1[0][0])
-            temp2[np.isnan(Judgment2)] = np.nan
-            temp2[(~np.isnan(temp2)) & (temp2 <= Judgment2)] = 0
-            temp2[(~np.isnan(temp2)) & (temp2 > Judgment2)] = 1
-            # print(temp2[0][0])
-            temp1 = temp1.values.reshape(-1, 1)
-            temp2 = temp2.values.reshape(-1, 1)
-        # print(float(profile.data['nodata']))
+def open_file(file):
+    return rasterio.open(file)
+
+
+def close_file(src):
+    src.close()
+
+
+def read_data(src, win):
+    profile = src.profile
+    temp = src.read(window=win)[0].astype("float32")
+    temp[temp == profile.data['nodata']] = np.nan
+    return temp
+
+
+def process_data(judgment_src, files_src, win):
+    judgments_data_min = read_data(judgment_src[0], win)
+    judgments_data_max = read_data(judgment_src[1], win)
+    j = 0
+    for temp in map(read_data, files_src, [win]*len(files_src)):
+        data_max = np.array(temp)
+        data_min = np.array(temp)
+        data_min[~np.isnan(data_min)] = 0
+        data_max[~np.isnan(data_max)] = 0
+        data_max[temp > judgments_data_max] = 1
+        data_min[temp < judgments_data_min] = 1
+        data_min = data_min.reshape(-1, 1)
+        data_max = data_max.reshape(-1, 1)
+        # temp = temp.reshape(-1, 1)
         if j == 0:
-            data1 = temp1
-            data2 = temp2
+            data1 = data_min
+            data2 = data_max
+            # data3 = temp
         else:
-            data1 = np.hstack([data1, temp1])
-            data2 = np.hstack([data2, temp2])
+            data1 = np.hstack([data1, data_min])
+            data2 = np.hstack([data2, data_max])
+            # data3 = np.hstack([data3, temp])
+        j += 1
     return data1, data2
 
 
-def Eca(dataA, dataB):
-    if (np.isnan(dataA).sum() + np.isnan(dataB).sum()) > 0:
-        return np.nan
-    ECA_data = eca.ECA(dataA, dataB, delT=0)
-    return ECA_data[0]
+def open_src():
+    judgment = os.listdir(path_judgments[1])
+    with rasterio.open(path_judgments[1] + judgment[0]) as src_temp:
+        profile = src_temp.profile
+        windows = [window for i, window in src_temp.block_windows()]
+        profile.data['dtype'] = 'float32'
+    if not os.path.exists(outpath):
+        os.makedirs(outpath)
+    profile.data["nodata"] = -3000
+    judgment_src_s = []
+    files_src_s = []
+    write_src_s = []
+    for write_file in out_files:
+        src_write = rasterio.open(outpath + write_file, 'w', **profile)
+        write_src_s.append(src_write)
+
+    for judgment_path, path in zip(path_judgments, paths):
+        judgment_files = glob(judgment_path + '*.tif')
+        judgment_src = [i for i in map(open_file, judgment_files)]
+        files = glob(path + '*.tif')
+        files = select_date(files, time_start, time_end, select_moth)
+        with ThreadPoolExecutor(max_workers=30) as worker:
+            files_src = [src for src in worker.map(open_file, files)]
+        judgment_src_s.append(judgment_src)
+        files_src_s.append(files_src)
+    print("open-----end")
+    return profile, judgment_src_s, files_src_s, windows, write_src_s
 
 
-moths = ['03_04/', '05_06/', '07_08_09/']
-path1 = r'E:/temp/LST-NDVI/MOD11-merge/'
-path2 = r'E:/temp/LST-NDVI/MOD13-select/'
-path3 = r'E:/temp/LST-NDVI/LST_Day_1km-NDVI/LST_Day_1km-NDVI-原格式/'
-outpath = r'E:/temp/LST-NDVI/LST_Day_1km-NDVI/LST_NDVI/'
-outfile1 = r'LST_min.tif'
-outfile2 = r'LST_max.tif'
-
-for moth in moths:
-    file1 = os.listdir(path1 + moth)
-    file2 = os.listdir(path2 + moth)
-    file3 = os.listdir(path3 + moth)
-
-    judgment = []
-    profiles = []
-    for j, i in enumerate(file3):
-        with rasterio.open(path3 + moth + i) as Src_read:
-            profile = Src_read.profile
-            profiles.append(profile)
-            temp = Src_read.read()[0]
-            temp = pd.DataFrame(temp)
-            temp[temp == profile.data['nodata']] = np.nan
-            temp = temp.values
-        judgment.append(temp)
-    profile.data['dtybe'] = 'float32'
-    height = profile.data['height']
-    width = profile.data['width']
-    judgment = np.array(judgment)
-    # data1_1 = read_data(path1, moth, file1, judgment[0], 0.1)
-    # data1_9 = read_data(path1, moth, file1, judgment[1], 0.9)
-    data1 = read_data(path1, moth, file1, judgment[0], judgment[1], profiles[0])
-    data2 = read_data(path2, moth, file2, judgment[2], judgment[3], profiles[2])
-    # data2_9 = read_data(path2, moth, file2, judgment[3], 0.9, profiles[3])
-    min1 = pd.DataFrame(np.array([-i for i in map(Eca, data1[0], data2[0])]).reshape(height, width))
-    min2 = pd.DataFrame(np.array([i for i in map(Eca, data1[0], data2[1])]).reshape(height, width))
-    max1 = pd.DataFrame(np.array([-i for i in map(Eca, data1[1], data2[0])]).reshape(height, width))
-    max2 = pd.DataFrame(np.array([i for i in map(Eca, data1[1], data2[1])]).reshape(height, width))
-    min_data = min1.mask((~np.isnan(min2)) & (min2 > -min1), min2).values
-    max_data = max1.mask((~np.isnan(max2)) & (max2 > -max1), max2).values
-    min_data[min_data == -0] = 0
-    max_data[max_data == -0] = 0
-    min_data *= 100
-    max_data *= 100
-    min_data[np.isnan(min_data)] = -3000
-    max_data[np.isnan(max_data)] = -3000
-    with rasterio.open(outpath + moth + outfile1, 'w', **profile) as srt_write1:
-        srt_write1.write(min_data.astype(profile.data['dtype']), 1)
-    with rasterio.open(outpath + moth + outfile2, 'w', **profile) as srt_write2:
-        srt_write2.write(max_data.astype(profile.data['dtype']), 1)
+def ECA_process(judgment_src_s, files_src_s, window, j, N):
+    height = window.height
+    width = window.width
+    data1_min, data1_max = process_data(judgment_src_s[0], files_src_s[0], window)
+    data2_min, data2_max = process_data(judgment_src_s[1], files_src_s[1], window)
+    with ThreadPoolExecutor(max_workers=80) as worker_temp:
+        data_min = np.array([i for i in worker_temp.map(Eca, data1_min, data2_min, data2_max)]).reshape(height, width)
+        data_max = np.array([i for i in worker_temp.map(Eca, data1_max, data2_min, data2_max)]).reshape(height, width)
+    p = round((j + 1) * 100 / N, 2)
+    duration = round(time.time() - st, 2)
+    remaining = round(duration * 100 / (0.01 + p) - duration, 2)
+    print("进度:{0}%，已耗时:{1}s，预计剩余时间:{2}s".format(p, duration, remaining), end="\r")
+    return data_min, data_max
+    # return height, width
 
 
+profile, judgment_src_s, files_src_s, windows, write_src_s = open_src()
+for data_W, window in zip(map(ECA_process,
+                               [judgment_src_s] * len(windows),
+                               [files_src_s] * len(windows),
+                               windows,
+                               [i for i in range(len(windows))],
+                               [len(windows)]*len(windows)),
+                          windows):
+    for data_w, write_src in zip(data_W, write_src_s):
+        # print(data_w)
+        data_w *= 100
+        data_w[np.isnan(data_w)] = -3000
+        write_src.write(data_w.astype(profile.data['dtype']), 1, window=window)
+with ThreadPoolExecutor(max_workers=30) as worker:
+    worker.map(close_file, write_src_s)
+    for files_src, judgment_src in zip(files_src_s, judgment_src_s):
+        worker.map(close_file, files_src)
+        worker.map(close_file, judgment_src)
