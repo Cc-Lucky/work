@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<TITLE>{dede:global.cfg_webname/}_{dede:global.cfg_seotitle/}</TITLE>
+<meta name="keywords" content="{dede:global.cfg_keywords/}">
+<meta name="baidu-site-verification" content="ydq10S9d8I" />
+<meta name="description" content="{dede:global.cfg_description/}">
+<style> 
+</style> 
+<link href="/style/index.css" type="text/css" rel="stylesheet" />
+<link href="/style/focus/css/app.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/style/search.css">
+
+<script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.js"></script>
+
+
+<link rel="stylesheet" href="/style/rmw_focus/css/rmw_focus.css" type="text/css"/>
+<link rel="stylesheet" href="/style/nav/css/rmw_nav.css" type="text/css"/>
+
+
+<script type="text/javascript" src='/style/rmw_focus/js/peoplefocus.min.js'></script>
+<script type="text/javascript">
+
+function menuFix() {
+    var sfEls = document.getElementById("nav").getElementsByTagName("li");
+    for (var i=0; i<sfEls.length; i++) {
+        sfEls[i].onmouseover=function() {
+        this.className+=(this.className.length>0? " ": "") + "sfhover";
+        }
+        sfEls[i].onMouseDown=function() {
+        this.className+=(this.className.length>0? " ": "") + "sfhover";
+        }
+        sfEls[i].onMouseUp=function() {
+        this.className+=(this.className.length>0? " ": "") + "sfhover";
+        }
+        sfEls[i].onmouseout=function() {
+        this.className=this.className.replace(new RegExp("( ?|^)sfhover\\b"),
+
+"");
+        }
+    }
+}
+window.onload=menuFix;
+
+</script>
+<script type="text/javascript">
+     $(document).ready(function() {
+         $('.cont_h').custom({
+           defaultd:'19,4,3,5,8,12,14,15,11,1,2,6,7,9,10,13,16,17,18,20,21,22,23,24,25,26,27,28'
+         });
+		 $("#focus_list").Tab();
+     });
+</script>
+		<script type="text/javascript">
+			$(function() {
+				var _scroll = {
+					delay: 1000,
+					easing: 'linear',
+					items: 1,
+					duration: 0.07,
+					timeoutDuration: 0,
+					pauseOnHover: 'immediate'
+				};
+				$('#ticker-1').carouFredSel({
+					width: 1000,
+					align: false,
+					items: {
+						width: 'variable',
+						height: 35,
+						visible: 1
+					},
+					scroll: _scroll
+				});
+
+				//	set carousels to be 100% wide
+				$('.caroufredsel_wrapper').css('width', '100%');
+
+				//	set a large width on the last DD so the ticker won't show the first item at the end
+				$('#ticker-2 dd:last').width(2000);
+			});
+		</script>
+<!--
+<meta http-equiv="mobile-agent" content="format=xhtml;url={dede:global.cfg_mobileurl/}">
+<script type="text/javascript">if(window.location.toString().indexOf('pref=padindex') != -1){}else{if(/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))){if(window.location.href.indexOf("?mobile")<0){try{if(/Android|Windows Phone|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){window.location.href="{dede:global.cfg_mobileurl/}";}else if(/iPad/i.test(navigator.userAgent)){}else{}}catch(e){}}}}</script>
+-->
+<!--[if IE 6]><script src="/style/iepng.js" type="text/javascript"></script><script type="text/javascript">EvPNG.fix('div, ul, img, li, input');</script><![endif]-->
+</head>
+<body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".guanbi").click(function(){
+        $(".adg").hide(1000);
+        });
+    });
+    var fun = function ()
+        {
+        $ (".adg").hide();
+        };
+        $ (function ()
+        {
+        setTimeout (fun,3000000);
+    });
+</script>
+
+{dede:include filename="head.htm"/}
+
+<div class="clear"></div>
+
+<!--
+<div class="adimg" style="margin-bottom:-18px">
+    {dede:include filename="ad_focus.htm"/}
+</div>
+
+-->
+<div class="adimg">{dede:myad name='首页通栏六广告位'/}</div>
+
+
+		
+<div id="donate-spacer"></div>
+<div style="text-align:center;clear:both">
+</div>
+
+
+<div class="clear"></div>
+
+<div id="wrapper">
+<div class="pic"><img src="http://www.0792gw.cn/style/adimg/gd.jpg" width="80" height="25"></div>
+<div class="first">
+<dl id="ticker-1">
+{dede:channelartlist typeid='50'} 
+
+{dede:arclist titlelen='66' orderway='desc' row='20'}  
+<dd>
+<a href="[field:arcurl/]" >[field:title/]</a></dd>
+{/dede:arclist}
+{/dede:channelartlist}
+
+</dl>
+</div>
+</div>
+
+
+<div class="clear"></div>
+<div class="jrtt">
+  <div class="toutiao"></div>
+  {dede:arclist titlelen='66' row='1' typeid='all' flag='a' limit='0,1'}
+  <h2><a href="[field:arcurl/]" title="[field:title /]">[field:title /]</a></h2>
+  {/dede:arclist}
+  <ul>
+    {dede:arclist titlelen='60' row='3' typeid='all' flag='a' limit='1,3'}
+    <a href="[field:arcurl/]" title="[field:title /]">[field:title /]</a>
+    {/dede:arclist}
+  </ul>
+</div>
+
+
+
+
+
+<!--幻灯头条新闻区 -->
+
+{dede:include filename="rmw_focus.htm"/}
+<div class="adimg">{dede:myad name='首页通栏五广告位'/}</div>
+<div class="adimg">   
+    <div class="ad_w760">{dede:myad name='首页导航下广告位左'/}</div>
+    <div class="ad_w220">{dede:myad name='首页导航下广告位右'/}</div>
+</div>
+<div class="clear" style="height:1px;"></div>
+<!--板块1-->
+<div class="box2">
+    <!--box1 开始-->
+	<div class="box_rmw fl mr35">
+		<h3>{dede:type typeid="53"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='53' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='53' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+    <!--box2 开始-->
+	<div class="box_rmw fl mr35">
+		<h3>{dede:type typeid="51"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='51' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='51' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+    <!--box3 开始-->
+	<div class="box_rmw fl">
+		<h3>{dede:type typeid="52"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='52' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='52' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+</div>
+<div class="clear" style="height:16px;"></div>
+
+<!--板块2-->
+<div class="box4">
+    <!--box1 开始-->
+	<div class="box_rmw fl mr35">
+		<h3>{dede:type typeid="143"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='143' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='143' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+    <!--box2 开始-->
+	<div class="box_rmw fl mr35">
+		<h3>{dede:type typeid="204"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='204' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='204' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+    <!--box3 开始-->
+	<div class="box_rmw fl">
+		<h3>{dede:type typeid="205"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='205' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='205' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+</div>
+<div class="clear"></div>
+
+<div class="clear" style="height:16px;"></div>
+
+
+<!--板块3-->
+<div class="box4">
+    <!--box1 开始-->
+	<div class="box_rmw fl mr35">
+		<h3>{dede:type typeid="76"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='76' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='40' row='1' typeid='76' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+    <!--box2 开始-->
+	<div class="box_rmw fl mr35">
+		<h3>{dede:type typeid="136"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='136' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='136' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+    <!--box3 开始-->
+	<div class="box_rmw fl">
+		<h3>{dede:type typeid="208"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='208' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='208' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+</div>
+<div class="clear" style="height:16px;"></div>
+
+<div class="clear"></div>
+
+
+
+
+<!--板块4-->
+<div class="box4">
+    <!--box1 开始-->
+	<div class="box_rmw fl mr35">
+		<h3>{dede:type typeid="135"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='135' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='135' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+    <!--box2 开始-->
+	<div class="box_rmw fl mr35">
+		<h3>{dede:type typeid="109"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='109' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='109' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+    <!--box3 开始-->
+	<div class="box_rmw fl">
+		<h3>{dede:type typeid="190"}<a href="[field:typelink/]">[field:typename/]</a><span class="fr MT10"><a href="[field:typelink/]" target="_blank"><img src="/style/jiaicon.png" width="15" height="15"></a></span>{/dede:type}</h3>
+		<p class="bigimgstyle">
+            {dede:arclist titlelen='50' row='1' typeid='190' flag='p,c' limit='0,1'}
+			<a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="344" height="180" border="0" alt="[field:title /]"></a><span><a href="[field:arcurl/]" target="_blank">[field:title /]</a></span>
+            {/dede:arclist}
+		</p>
+		<ul class="listloop">
+           {dede:arclist titlelen='50' row='1' typeid='190' limit='1,5'}
+			<li><a href="[field:arcurl/]" target="_blank">[field:title /]</a></li>
+           {/dede:arclist}
+		</ul>
+	</div>
+</div>
+
+<div class="clear"></div>
+
+
+<div style=" width:1200px;margin:0 auto; ">
+<section class="w1000 cont_b" id="rmw_tuijian">
+
+<div class="lanmu_title" style="width:1200px; float:left;">
+<h3>人物专访</h3>
+<span class="lanmu_more"> <a href="{dede:type typeid='108'}[field:typelink /]{/dede:type}"><img src="/style/jiaicon.png" width="15" height="15"></a></span>
+</div>
+
+<div class="cont_b_box">
+
+	<ul>
+        {dede:arclist titlelen='40' row='6' typeid='' flag='s'}
+		<li>
+          <a href="[field:arcurl/]" target="_blank"><img src="[field:litpic/]" width="190" height="190" border="0" alt="[field:title/]"></a>
+	  <h4><a href="[field:arcurl/]"  title="[field:title/]">[field:title/]</a></h4>
+		</li>
+        {/dede:arclist}
+	</ul>
+
+
+</section></div>
+
+
+
+
+<div class="adimg">{dede:myad name='首页通栏一广告位'/}</div>
+
+
+<!--图库板块-->
+<div class="box5 clearfix">
+  <div class="lanmu_title">
+    <h3>看九江</h3>
+    <div class="sub_lanmu"> {dede:channelartlist typeid='5' row='10'}<a href="{dede:field name='typeurl'/}">{dede:field name='typename'/}</a>{/dede:channelartlist} </div>
+    <span class="lanmu_more"> <a href="{dede:type typeid='5'}[field:typelink /]{/dede:type}"><img src="/style/jiaicon.png" width="15" height="15"></a></span> </div>
+
+
+  <div class="box5c"> {dede:arclist titlelen='70' row='4' typeid='44' flag='p,c' limit='0,4'}
+    <li><a href="[field:arcurl/]" title="[field:title /]"><img src="[field:litpic/]"/></a><a href="[field:arcurl/]" title="[field:title /]"><span>[field:title /]</span></a></li>
+
+    {/dede:arclist}
+</div>
+
+
+    <div class="box5l">
+    {dede:arclist titlelen='70' row='1' typeid='43' flag='p,c' limit='0,1'}
+    <li class="box7"><a href="[field:arcurl/]" title="[field:title /]"><img src="[field:litpic/]"/></a><a href="[field:arcurl/]" title="[field:title /]"><span>[field:title /]</span></a></li>
+    {/dede:arclist}
+
+    {dede:arclist titlelen='70' row='3' typeid='43' flag='p,c' limit='1,3'}
+    <li class="box7"><a href="[field:arcurl/]" title="[field:title /]"><img src="[field:litpic/]"/></a><a href="[field:arcurl/]" title="[field:title /]"><span>[field:title /]</span></a></li>
+    {/dede:arclist} </div>
+   
+
+    
+    <!--box5r样式一//
+    <div class="box5r"> {dede:arclist titlelen='35' row='4' typeid='61' flag='p,c' limit='0,4'}
+    <li><a href="[field:arcurl/]" title="[field:title /]"><img src="[field:litpic/]"/></a><a href="[field:arcurl/]" title="[field:title /]"><span>[field:title /]</span></a></li>
+    {/dede:arclist} </div>
+     -->
+    <!--box5r样式二//
+  <div class="box5r"> {dede:arclist titlelen='18' row='5' typeid='5' noflag='c' flag='p'}
+    <dl>
+      <dt><a href="[field:arcurl/]" title="[field:title /]"><img src="[field:litpic/]"  alt="[field:title /]"></a></dt>
+      <dd> <span><a href="[field:arcurl/]" title="[field:title /]">[field:title /]</a></span>
+        <p>[field:description function="cn_substr(@me,25)"/]...</p>
+      </dd>
+    </dl>
+    {/dede:arclist} </div>
+    -->
+</div>
+<div class="clear" style="height:1px;"></div>
+<div class="adimg">{dede:myad name='首页通栏二广告位'/}</div>
+
+
+
+
+
+<div class="yqlianjie">
+
+  <div class="lianjie">
+  <div class="lianjieleft">便民服务</div>
+  </div>
+
+  <div class="bianming">
+        <ul>
+            <li><a href="http://g.jjgpsy.cn:12345/" target="_blank">公积金查询</a></li>
+            <li><a href="https://jx.122.gov.cn/views/inquiry.html" target="_blank">交通违章查询</a></li>
+            <li><a href="http://sthjj.jiujiang.gov.cn/zwgk_215/zxjg/jjskqzlyb/" target="_blank">空气质量预报</a></li>
+            <li><a href="http://jjybj.jjrfw.com/a_sj_1.php?col1=-1&col2=&col3=&col4=%E5%AE%9A%E7%82%B9%E8%8D%AF%E5%BA%97" target="_blank">定点药店查询</a></li>
+            <li><a href="http://jjybj.jjrfw.com/a_sj_1.php?col1=-1&col2=&col3=&col4=%E5%8C%BB%E7%96%97%E6%9C%BA%E6%9E%84" target="_blank">定点医疗机构</a></li>
+            <li><a href="http://jjybj.jjrfw.com/a_sj_3.php" target="_blank">诊疗项目查询</a></li>
+            <li><a href="http://jjybj.jjrfw.com/a_sj_2.php" target="_blank">药品目录查询</a></li>
+            <li><a href="http://jj.jxzwfww.gov.cn/jxzw/newbusiness/getBusinessIndex.do?receiveNumber=&orgCode=&wid=5" target="_blank">办事结果查询</a></li>
+            <li><a href="http://zjj-xx.jiujiang.gov.cn/index.php" target="_blank">房产信息查询</a></li>
+            <li><a href="http://fszfpt.jxf.gov.cn/JNS/website/index/gohome.do" target="_blank">统一非税支付</a></li>       
+            </ul>
+</div>
+
+</div>
+
+
+<div class="yqlianjie">
+
+  <div class="lianjie">
+  <div class="lianjieleft">友情链接</div>
+  </div>
+
+  <div class="lianjiecontxt">{dede:flink row='24' type='text' titlelen='26' }[field:link /]{/dede:flink}</div>
+
+</div>
+
+{dede:include filename="foot.htm"/}
+
+
+
+</body>
+</html>
